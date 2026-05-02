@@ -1,0 +1,28 @@
+version: "3"
+
+networks:
+  monitoring:
+
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus-config.yaml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana-oss
+    networks:
+      - monitoring
+    ports:
+      - "3000:3000"
+  
+  loki:
+    image: grafana/loki:2.7.1
+    ports:
+      - "3100:3100"
+    networks:
+      - monitoring
